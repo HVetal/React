@@ -1,26 +1,37 @@
 import logo from './logo.svg';
 import './App.css';
-import {  Message } from './components/Message';
-
-const myText = "Hello from app";
+import { Message } from './components/Message';
+import { Counter } from './components/Counter';
+import { useEffect, useState } from 'react';
+import { Form } from './components/Form';
 
 function App() {
+  const [messageList, setMessageList] = useState([]);
+  const handleMessageClick = () => {
+    console.log("hello!!!");
+  };
+
+  const msgRobot = {"author": "robot", "text": "RobotoText"};
+
+  const handleAddMessage = (msg) => {
+    setMessageList((prevMessageList) => [...prevMessageList, msg]);
+    // setMessageList([...messageList, text]);
+  }
+
+  useEffect(() => {
+    if (((messageList.length - 1) >= 0) && (messageList[messageList.length - 1].author !== 'robot')) {
+      setTimeout(() => {
+        setMessageList((prevMessageList) => [...prevMessageList, msgRobot]);
+      }, 1500);
+    }
+  }, [messageList]);
+
   return ( 
     <div className = "App" >
       <header className = "App-header" >
-        <img src = {logo} className = "App-logo" alt = "logo" />
-        <p>
-          Edit <code> src/App.js </code> and save to reload. 
-        </p> 
-        <a 
-          className = "App-link"
-          href = "https://reactjs.org"
-          target = "_blank"
-          rel = "noopener noreferrer" 
-        >
-          Learn React 
-        </a> 
-        <Message text={myText}/>
+        {messageList.map((msg) => <Message msg={msg} onMessageClick={handleMessageClick} />)}
+        {/* <Counter /> */}
+        <Form onSubmit={handleAddMessage}/>
       </header> 
     </div>
   );
