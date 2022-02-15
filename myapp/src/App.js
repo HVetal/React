@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import { Message } from './components/Message';
-import { Counter } from './components/Counter';
+// import { Message } from './components/Message';
+// import { Counter } from './components/Counter';
 import { useEffect, useState } from 'react';
 // import { Form } from './components/Form';
 import { AUTHORS } from './components/utils/constants';
@@ -10,7 +10,7 @@ import { MessageList } from './components/MessageList';
 import { FormMui } from './components/FormMui';
 
 
-const chats = [{ name: 'Chat 1', id: '1'}, { name: 'Chat 2', id: '2'}, { name: 'Chat 3', id: '3'}];
+// const chats = [{ name: 'Chat 1', id: '1'}, { name: 'Chat 2', id: '2'}, { name: 'Chat 3', id: '3'}];
 
 function App() {
   const [messageList, setMessageList] = useState([]);
