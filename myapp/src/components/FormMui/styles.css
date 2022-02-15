@@ -1,5 +1,5 @@
-.MuiButton-root .MuiButton-sizeMedium .form_button {
+.form_button .MuiButton-root {
+    font-size: 30px;
     padding: 20px 15px;
     color: red;
-    background-color: aqua;
 }

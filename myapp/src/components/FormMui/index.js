@@ -1,4 +1,5 @@
-import { Button, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import {useEffect, useRef, useState } from "react";
 import "./styles.css";
 
@@ -22,8 +23,8 @@ export const FormMui = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-          <TextField ref={textField} className="form_text-field" id="outlined-basic" label="Outlined" variant="outlined" value={value} onChange={handleChange} focused />
-          <Button className="form_button" variant="outlined" type="submit">Send</Button>
+          <TextField  inputRef={textField} className="form_text-field" id="outlined-basic"  variant="outlined" value={value} onChange={handleChange} />
+          <Button className="form_button" type="submit">Send</Button>
         </form>
     )
 }
