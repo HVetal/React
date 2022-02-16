@@ -1,6 +1,9 @@
-import {useEffect, useRef, useState } from "react"
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import {useEffect, useRef, useState } from "react";
+import "./styles.css";
 
-export const Form = ({ onSubmit }) => {
+export const FormMui = ({ onSubmit }) => {
     const [value, setValue] = useState('');
     const textField = useRef();
 
@@ -20,8 +23,8 @@ export const Form = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input value={value} ref={textField} onChange={handleChange} type="text" />
-            <input type="submit" />
+          <TextField  inputRef={textField} className="form_text-field" id="outlined-basic"  variant="outlined" value={value} onChange={handleChange} />
+          <Button className="form_button" type="submit">Send</Button>
         </form>
     )
 }
