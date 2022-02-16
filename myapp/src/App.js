@@ -7,9 +7,19 @@ import { useEffect, useState } from 'react';
 import { AUTHORS } from './components/utils/constants';
 import { MessageList } from './components/MessageList';
 import { FormMui } from './components/FormMui';
+import { ListChat } from './components/List'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { orange } from '@mui/material/colors';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: orange[500],
+    },
+  },
+});
 
-// const chats = [{ name: 'Chat 1', id: '1'}, { name: 'Chat 2', id: '2'}, { name: 'Chat 3', id: '3'}];
+const chats = [{ name: 'Chat 1', id: 1}, { name: 'Chat 2', id: 2}, { name: 'Chat 3', id: 3 }];
 
 function App() {
   const [messageList, setMessageList] = useState([]);
@@ -42,14 +52,18 @@ function App() {
   }, [messageList]);
 
   return ( 
+    <ThemeProvider theme={theme}>
     <div className = "App" >
-
+      <ListChat chats_list={chats} />
+      <div>
       <div className = "App-content" >
         <MessageList messages={messageList} />
       </div> 
         {/* <Counter /> */}
         <FormMui onSubmit={handleAddMessage} />
+        </div>
     </div>
+     </ThemeProvider>
   );
 }
 
