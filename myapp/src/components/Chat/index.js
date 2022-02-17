@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
 import { FormMui } from '../FormMui';
-import { ChatList } from '../ChatList';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { Navigate, useParams } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -36,11 +35,19 @@ export function Chat() {
       author,
       id: `msg-${Date.now()}`,
     };
-    setMessageList((prevMessageList) =>({ 
+    setMessageList((prevMessageList) => ({ 
         ...prevMessageList,
         [chatId]: [...prevMessageList[chatId], newMsg],
     }));
   };
+
+  const chat4 = [];
+
+  const addChat = () => {
+          messageList = messageList + chat4;
+  }
+
+  console.log(messageList);
 
   useEffect(() => {
     let timeout;
@@ -69,6 +76,7 @@ export function Chat() {
   <FormMui onSubmit={handleAddMessage} />
 </div>
     </div>
+    <Button onClick={addChat}>Add chat</Button>
      </ThemeProvider>
   );
 };
