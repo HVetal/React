@@ -1,0 +1,1 @@
+export const ProfilePage = () => <h2>Profile page body</h2>
