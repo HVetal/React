@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
 import { FormMui } from '../FormMui';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { Navigate, useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -15,15 +14,23 @@ const theme = createTheme({
   },
 });
 
-export function Chat() {
+export function Chat({ messageList, chats, handleDeleteChat }) {
   const { chatId } = useParams();
-  const [messageList, setMessageList] = useState({
-      chat1: [],
-      chat2: [],
-      chat3: [],
-  });
-  const messagesEnd = useRef();
+//   const [messageList, setMessageList] = useState({
+//       chat1: [],
+//       chat2: [],
+//       chat3: [],
+//   });
+  const [messageListState, setMessageList] = useState(messageList);
+  const [chatState, setChatState] = useState(chats);
 
+  handleDeleteChat = (idToDelete) => {
+    const newChats = chatState.filter(chat => chat.id !== idToDelete);
+    setChatState(newChats);
+    const newMessageList = { ...messageListState };
+    delete messageListState[idToDelete];
+    setMessageList(newMessageList);
+  }
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
@@ -41,17 +48,9 @@ export function Chat() {
     }));
   };
 
-  const chat4 = [];
-
-  const addChat = () => {
-          messageList = messageList + chat4;
-  }
-
-  console.log(messageList);
-
   useEffect(() => {
     let timeout;
-    if (messageList[chatId]?.[messageList[chatId]?.length - 1]?.author === AUTHORS.ME) {
+    if (messageListState[chatId]?.[messageListState[chatId]?.length - 1]?.author === AUTHORS.ME) {
         timeout = setTimeout(() => {
           sendMessage('i am bot', AUTHORS.BOT);
         }, 1000);
@@ -59,9 +58,9 @@ export function Chat() {
     return () => {
       clearTimeout(timeout);
     }
-  }, [messageList]);
+  }, [messageListState]);
 
-  if (!chatId || !messageList[chatId]) {
+  if (!chatId || !messageListState[chatId]) {
     return <Navigate to="/nochat" replace />
   }
 
@@ -71,12 +70,11 @@ export function Chat() {
       {/* <ChatList /> */}
       <div>
   <div className = "App-content" >
-    <MessageList messages={messageList[chatId]} />
+    <MessageList messages={messageListState[chatId]} />
   </div> 
   <FormMui onSubmit={handleAddMessage} />
 </div>
     </div>
-    <Button onClick={addChat}>Add chat</Button>
      </ThemeProvider>
   );
 };
