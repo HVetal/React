@@ -14,23 +14,19 @@ const theme = createTheme({
   },
 });
 
-export function Chat({ messageList, chats, handleDeleteChat }) {
+export function Chat({ messageList, chats }) {
   const { chatId } = useParams();
-//   const [messageList, setMessageList] = useState({
-//       chat1: [],
-//       chat2: [],
-//       chat3: [],
-//   });
-  const [messageListState, setMessageList] = useState(messageList);
-  const [chatState, setChatState] = useState(chats);
 
-  handleDeleteChat = (idToDelete) => {
-    const newChats = chatState.filter(chat => chat.id !== idToDelete);
-    setChatState(newChats);
-    const newMessageList = { ...messageListState };
-    delete messageListState[idToDelete];
-    setMessageList(newMessageList);
-  }
+  const [messageListState, setMessageList] = useState(messageList);
+//   const [chatState, setChatState] = useState(chats);
+
+//   handleDeleteChat = (deleteChatState) => {
+//     const newChats = chatState.filter(chat => chat.id !== deleteChatState);
+//     setChatState(newChats);
+//     const newMessageList = { ...messageListState };
+//     delete messageListState[deleteChatState];
+//     setMessageList(newMessageList);
+//   }
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
