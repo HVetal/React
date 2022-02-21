@@ -19,8 +19,7 @@ const messageList = {
     chat3: [],
 };
 
-// const [messageListState, setMessageList] = useState(messageList);
-// const [chatState, setChatState] = useState(chats);
+
 
 // const handleDeleteChat = (idToDelete) => {
 //     const newChats = chatState.filter(chat => chat.id !== idToDelete);
@@ -31,9 +30,19 @@ const messageList = {
 //   }
 
 export const Router = () => {
-    const [deleteChatState, setDeleteChat] = useState();
-    console.log(deleteChatState);
-    console.log(setDeleteChat);
+    const [messageListState, setMessageList] = useState(messageList);
+    const [chatState, deleteChat] = useState(chats);
+    const handleDeleteChat = (idToDelete) => {
+      console.log('idToDelete', idToDelete);
+      const newChats = chatState.filter(chat => chat.id !== idToDelete);
+      deleteChat(newChats);
+      console.log('newChats', newChats);
+      const newMessageList = { ...messageListState };
+      delete newMessageList[idToDelete];
+      setMessageList(newMessageList);
+      console.log('newMessageList', newMessageList);
+    }
+
     return (
     <BrowserRouter>
       <div>
@@ -48,7 +57,7 @@ export const Router = () => {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="chats" element={<ChatList chats={chats} onClick={deleteChatState} />}>
+        <Route path="chats" element={<ChatList chats={chats} deleteChat={handleDeleteChat} />}>
             <Route path=":chatId" element={<Chat messageList={messageList} />} />
         </Route>
         {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
