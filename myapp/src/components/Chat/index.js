@@ -14,10 +14,10 @@ const theme = createTheme({
   },
 });
 
-export function Chat({ messageList, chats }) {
+export function Chat({ messageListState, chats }) {
   const { chatId } = useParams();
 
-  const [messageListState, setMessageList] = useState(messageList);
+  const [stateMessageList, setMessageList] = useState(messageListState);
 //   const [chatState, setChatState] = useState(chats);
 
 //   handleDeleteChat = (deleteChatState) => {
@@ -41,12 +41,14 @@ export function Chat({ messageList, chats }) {
     setMessageList((prevMessageList) => ({ 
         ...prevMessageList,
         [chatId]: [...prevMessageList[chatId], newMsg],
-    }));
+    })
+    );
+    
   };
 
   useEffect(() => {
     let timeout;
-    if (messageListState[chatId]?.[messageListState[chatId]?.length - 1]?.author === AUTHORS.ME) {
+    if (stateMessageList[chatId]?.[stateMessageList[chatId]?.length - 1]?.author === AUTHORS.ME) {
         timeout = setTimeout(() => {
           sendMessage('i am bot', AUTHORS.BOT);
         }, 1000);
@@ -54,9 +56,9 @@ export function Chat({ messageList, chats }) {
     return () => {
       clearTimeout(timeout);
     }
-  }, [messageListState]);
+  }, [stateMessageList]);
 
-  if (!chatId || !messageListState[chatId]) {
+  if (!chatId || !stateMessageList[chatId]) {
     return <Navigate to="/nochat" replace />
   }
 
@@ -66,7 +68,7 @@ export function Chat({ messageList, chats }) {
       {/* <ChatList /> */}
       <div>
   <div className = "App-content" >
-    <MessageList messages={messageListState[chatId]} />
+    <MessageList messages={stateMessageList[chatId]} />
   </div> 
   <FormMui onSubmit={handleAddMessage} />
 </div>

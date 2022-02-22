@@ -30,17 +30,28 @@ const messageList = {
 //   }
 
 export const Router = () => {
-    const [messageListState, setMessageList] = useState(messageList);
-    const [chatState, deleteChat] = useState(chats);
+    let [messageListState, setMessageList] = useState(messageList);
+    let [chatState, setDeleteChat] = useState(chats);
+    // let newChats = [];
+    // let newMessageList = {};
+
     const handleDeleteChat = (idToDelete) => {
-      console.log('idToDelete', idToDelete);
+        
+
       const newChats = chatState.filter(chat => chat.id !== idToDelete);
-      deleteChat(newChats);
-      console.log('newChats', newChats);
+      setDeleteChat(newChats);
+      chatState = newChats;
       const newMessageList = { ...messageListState };
       delete newMessageList[idToDelete];
-      setMessageList(newMessageList);
+      messageListState = newMessageList;
+      setMessageList(messageListState);
+      
+      console.log('idToDelete', idToDelete);
+      console.log('chatState', chatState);
+      console.log('messageListState', messageListState);
       console.log('newMessageList', newMessageList);
+    //   console.log('messageList', messageList);
+    //   return {chatState, messageListState};
     }
 
     return (
@@ -57,11 +68,11 @@ export const Router = () => {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="chats" element={<ChatList chats={chats} deleteChat={handleDeleteChat} />}>
-            <Route path=":chatId" element={<Chat messageList={messageList} />} />
+        <Route path="chats" element={<ChatList deleteChat={handleDeleteChat} chatState={chatState}  />}>
+            <Route path=":chatId" element={<Chat messageListState={messageListState} />} />
         </Route>
         {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
-        <Route path="/nochat" element={<NoChat chats={chats} />} />
+        <Route path="/nochat" element={<NoChat chatState={chatState} />} />
       </Routes>  
     </BrowserRouter>
     );

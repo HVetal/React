@@ -22,10 +22,10 @@ import { Button } from '@mui/material';
   //   return id;
   // };
 
-export const ChatList = ({ chats, deleteChat }  ) => 
+export const ChatList = ({ chatState, deleteChat }  ) => 
 <>
 <List>
-{chats.map((chat) => ( 
+{chatState.map((chat) => ( 
   <ListItem key={chat.id}><Link to={`/chats/${chat.id}`}>{chat.name}</Link>
   <Button className="delete_btn" onClick={() => deleteChat(chat.id)}>X</Button>
   </ListItem>
