@@ -5,6 +5,8 @@ import { FormMui } from '../FormMui';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { Navigate, useParams } from 'react-router-dom';
+import './styles.css'
+import { ChatList } from '../ChatList';
 
 const theme = createTheme({
   palette: {
@@ -18,15 +20,6 @@ export function Chat({ messageListState, chats }) {
   const { chatId } = useParams();
 
   const [stateMessageList, setMessageList] = useState(messageListState);
-//   const [chatState, setChatState] = useState(chats);
-
-//   handleDeleteChat = (deleteChatState) => {
-//     const newChats = chatState.filter(chat => chat.id !== deleteChatState);
-//     setChatState(newChats);
-//     const newMessageList = { ...messageListState };
-//     delete messageListState[deleteChatState];
-//     setMessageList(newMessageList);
-//   }
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
@@ -64,15 +57,16 @@ export function Chat({ messageListState, chats }) {
 
   return ( 
     <ThemeProvider theme={theme}>
-    <div className = "App" >
-      {/* <ChatList /> */}
-      <div>
-  <div className = "App-content" >
-    <MessageList messages={stateMessageList[chatId]} />
-  </div> 
-  <FormMui onSubmit={handleAddMessage} />
-</div>
-    </div>
+      <div className = "app" >
+        {/* <ChatList /> */}
+
+        <div className = "content" >
+            <MessageList messages={stateMessageList[chatId]} />
+        </div> 
+        <div className = "content" >
+            <FormMui onSubmit={handleAddMessage} />
+        </div> 
+      </div>
      </ThemeProvider>
   );
 };

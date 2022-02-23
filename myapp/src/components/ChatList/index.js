@@ -18,10 +18,6 @@ import { Button } from '@mui/material';
   //   setMessageList(newMessageList);
   // }
 
-  // const deleteChat = (id) => {
-  //   return id;
-  // };
-
 export const ChatList = ({ chatState, deleteChat }  ) => 
 <>
 <List>

@@ -4,6 +4,7 @@ import { Chat } from "../Chat";
 import { ChatList } from "../ChatList";
 import { NoChat } from "../Nochat";
 import { ProfilePage } from "../Profile";
+import './styles.css'
 
 const Home = () => <h2>Home page</h2>;
 
@@ -19,21 +20,9 @@ const messageList = {
     chat3: [],
 };
 
-
-
-// const handleDeleteChat = (idToDelete) => {
-//     const newChats = chatState.filter(chat => chat.id !== idToDelete);
-//     setChatState(newChats);
-//     const newMessageList = { ...messageList };
-//     delete messageList[idToDelete];
-//     setMessageList(newMessageList);
-//   }
-
 export const Router = () => {
     let [messageListState, setMessageList] = useState(messageList);
     let [chatState, setDeleteChat] = useState(chats);
-    // let newChats = [];
-    // let newMessageList = {};
 
     const handleDeleteChat = (idToDelete) => {
         
@@ -50,8 +39,6 @@ export const Router = () => {
       console.log('chatState', chatState);
       console.log('messageListState', messageListState);
       console.log('newMessageList', newMessageList);
-    //   console.log('messageList', messageList);
-    //   return {chatState, messageListState};
     }
 
     return (
@@ -65,15 +52,17 @@ export const Router = () => {
       <div>
         <NavLink to="/chats" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>chats</NavLink>
       </div>    
+      <div className="router_chatlist">
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="chats" element={<ChatList deleteChat={handleDeleteChat} chatState={chatState}  />}>
+        <Route path="chats" element={<ChatList deleteChat={handleDeleteChat} chatState={chatState} />}>
             <Route path=":chatId" element={<Chat messageListState={messageListState} />} />
         </Route>
         {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
         <Route path="/nochat" element={<NoChat chatState={chatState} />} />
       </Routes>  
+      </div>
     </BrowserRouter>
     );
 };
