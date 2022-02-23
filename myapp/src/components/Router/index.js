@@ -24,9 +24,7 @@ export const Router = () => {
     let [messageListState, setMessageList] = useState(messageList);
     let [chatState, setDeleteChat] = useState(chats);
 
-    const handleDeleteChat = (idToDelete) => {
-        
-
+    const handleDeleteChat = (idToDelete) => {     
       const newChats = chatState.filter(chat => chat.id !== idToDelete);
       setDeleteChat(newChats);
       chatState = newChats;
