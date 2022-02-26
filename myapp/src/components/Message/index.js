@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from '../utils/ThemeContext';
 import './style.css';
 
-export class Message extends React.Component {
-    render() {
-        const { author, text } = this.props;
-        return (
-            <div className='header'>
+export const Message = ({ text, author }) => {
+    const { messageColor } = useContext(ThemeContext);
+
+    return (
+        <div>
+            <span style={{ color: messageColor }}>
                 {author}: {text}
-            </div>
-        );
-    }
-}
+            </span>
+        </div>
+    );
+};
+
+
+// export class Message extends React.Component {
+//     render() {
+//         const { author, text } = this.props;
+//         return (
+//             <div className='header'>
+//                 {author}: {text}
+//             </div>
+//         );
+//     }
+// }
