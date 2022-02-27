@@ -9,38 +9,54 @@ import './styles.css'
 
 const Home = () => <h2>Home page</h2>;
 
-const chats = [
+const initialChats = [
     { name: 'Chat 1', id: "chat1"}, 
     { name: 'Chat 2', id: "chat2"}, 
     { name: 'Chat 3', id: "chat3" }
 ];
 
-const messageList = {
-    chat1: [],
-    chat2: [],
-    chat3: [],
-};
+const initialMessages = initialChats.reduce((acc,el) => {
+  acc[el.id] = [];
+  return acc;
+}, {});
 
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
 
-    let [messageListState, setMessageList] = useState(messageList);
-    let [chatState, setDeleteChat] = useState(chats);
+    let [messages, setMessages] = useState(initialMessages);
+    let [chatList, setChatList] = useState(initialChats);
 
-    const handleDeleteChat = (idToDelete) => {     
-      const newChats = chatState.filter(chat => chat.id !== idToDelete);
-      chatState = newChats;
-      setDeleteChat(chatState);
-      const newMessageList = { ...messageListState };
-      delete newMessageList[idToDelete];
-      messageListState = newMessageList;
-      setMessageList(messageListState);
-      
-      console.log('idToDelete', idToDelete);
-      console.log('chatState', chatState);
-      console.log('messageListState', messageListState);
-      console.log('newMessageList', newMessageList);
-    }
+    const handleAddMessage = (chatId, newMsg) => {
+      setMessages((prevMessageList) => ({ 
+        ...prevMessageList,
+        [chatId]: [...prevMessageList[chatId], newMsg],
+    })    );
+    };
+
+    const handleAddChat = (newChatName) => {
+      const newId = `chat-${Date.now()}`;
+
+      const newChat = {
+        id: newId,
+        name: newChatName,
+      };
+
+      setChatList((prevChatList) => [...prevChatList, newChat]);
+      setMessages((prevMessages) => ({
+        ...prevMessages,
+        [newId]: [],
+      }));
+    };
+
+  const handleDeleteChat = (idToDelete) => {
+    setChatList((prevChatList) => prevChatList.filter(chat => chat.id !== idToDelete)
+    );
+    setMessages((prevMessages) => { 
+      const newMsgs = { ...prevMessages };
+    delete newMsgs[idToDelete];
+    return newMsgs;
+    });
+  }
 
     return (
       <ThemeContext.Provider value={{messageColor, setMessageColor}}>
@@ -58,11 +74,11 @@ export const Router = () => {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="chats" element={<ChatList deleteChat={handleDeleteChat} chatState={chatState} />}>
-            <Route path=":chatId" element={<Chat messageListState={messageListState} />} />
+        <Route path="chats" element={<ChatList onAddChat={handleAddChat} onDeleteChat={handleDeleteChat} chats={chatList} />}>
+            <Route path=":chatId" element={<Chat messages={messages} addMessage={handleAddMessage}/>} />
         </Route>
         {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
-        <Route path="/nochat" element={<NoChat chatState={chatState} />} />
+        <Route path="/nochat" element={<NoChat chatList={chatList} />} />
       </Routes>  
       </div>
     </BrowserRouter>
