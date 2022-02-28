@@ -6,6 +6,8 @@ import { ChatList } from "../ChatList";
 import { NoChat } from "../Nochat";
 import { Profile } from "../Profile";
 import './styles.css'
+import { useDispatch, useSelector } from "react-redux";
+import { addChat, deleteChat } from "../../store/chats/actions";
 
 const Home = () => <h2>Home page</h2>;
 
@@ -23,8 +25,13 @@ const initialMessages = initialChats.reduce((acc,el) => {
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
 
-    let [messages, setMessages] = useState(initialMessages);
-    let [chatList, setChatList] = useState(initialChats);
+    // const [messages, setMessages] = useState(initialMessages);
+    // const [chatList, setChatList] = useState(initialChats);
+
+    const messages = useSelector(state => state.messages);
+
+    const chatList = useSelector(state => state.chats);
+    const dispatch = useDispatch();
 
     const handleAddMessage = (chatId, newMsg) => {
       setMessages((prevMessageList) => ({ 
@@ -41,7 +48,8 @@ export const Router = () => {
         name: newChatName,
       };
 
-      setChatList((prevChatList) => [...prevChatList, newChat]);
+      dispatch(addChat(newId, newChatName));
+      // setChatList((prevChatList) => [...prevChatList, newChat]);
       setMessages((prevMessages) => ({
         ...prevMessages,
         [newId]: [],
@@ -49,8 +57,9 @@ export const Router = () => {
     };
 
   const handleDeleteChat = (idToDelete) => {
-    setChatList((prevChatList) => prevChatList.filter(chat => chat.id !== idToDelete)
-    );
+    dispatch(deleteChat(idToDelete));
+    // setChatList((prevChatList) => prevChatList.filter(chat => chat.id !== idToDelete)
+    // );
     setMessages((prevMessages) => { 
       const newMsgs = { ...prevMessages };
     delete newMsgs[idToDelete];
