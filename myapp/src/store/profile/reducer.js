@@ -19,12 +19,6 @@ export const profileReducer = (state = initialState, action) => {
                 name: action.payload,
             };
         }
-        // case TOGGLE_SHOW_NAME: {
-        //     return {
-        //         ...state,
-        //         showName: !state.showName,
-        //     };
-        // }
         default:
             return state;
     }

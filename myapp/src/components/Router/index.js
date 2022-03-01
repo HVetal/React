@@ -25,10 +25,10 @@ const initialMessages = initialChats.reduce((acc,el) => {
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
 
-    // const [messages, setMessages] = useState(initialMessages);
+    const [messages, setMessages] = useState(initialMessages);
     // const [chatList, setChatList] = useState(initialChats);
 
-    const messages = useSelector(state => state.messages);
+    // const messages = useSelector(state => state.messages);
 
     const chatList = useSelector(state => state.chats);
     const dispatch = useDispatch();

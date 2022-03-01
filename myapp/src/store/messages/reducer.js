@@ -1,18 +1,27 @@
 import { ADD_MESSAGE } from "./actions";
 
-const initialState = {};
+const initialState = {
+    messageList: {},
+};
 
 export const messagesReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_MESSAGE: {
-            return {...state, id: action.payload.id, msg: action.payload.msg};
+          const currentList = state.messageList[action.chatId] || [];
+          return {
+            ...state,
+            messageList: {
+              ...state.messageList,
+              [action.chatId]: [
+                ...currentList,
+                {
+                  ...action.message,
+                  id: `${action.chatId}${currentList.length}`,
+                },
+              ],
+            },
+          };
         }
-        // case ADD_CHAT: {
-        //     return [...state, { name: action.payload.name, id: action.payload.id }];
-        // }
-        // case DELETE_CHAT: {
-        //     return state.filter(({ id }) => id !== action.payload);
-        // }
         default:
             return state;
     }
