@@ -8,6 +8,7 @@ import { Profile } from "../Profile";
 import './styles.css'
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, deleteChat } from "../../store/chats/actions";
+import { addMessage } from "../../store/messages/actions";
 
 const Home = () => <h2>Home page</h2>;
 
@@ -25,19 +26,25 @@ const initialMessages = initialChats.reduce((acc,el) => {
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
 
-    const [messages, setMessages] = useState(initialMessages);
+    //const [messages, setMessages] = useState(initialMessages);
     // const [chatList, setChatList] = useState(initialChats);
 
-    // const messages = useSelector(state => state.messages);
+     const messages = useSelector(state => state.messages.messageList);
+     console.log(initialMessages);
+
 
     const chatList = useSelector(state => state.chats);
     const dispatch = useDispatch();
 
-    const handleAddMessage = (chatId, newMsg) => {
-      setMessages((prevMessageList) => ({ 
-        ...prevMessageList,
-        [chatId]: [...prevMessageList[chatId], newMsg],
-    })    );
+    const handleAddMessage = (chatId, message) => {
+      // const onAddMessage = (message) => {
+        dispatch(addMessage(chatId, message));
+      // }
+    
+    //   setMessages((prevMessageList) => ({ 
+    //     ...prevMessageList,
+    //     [chatId]: [...prevMessageList[chatId], newMsg],
+    // })    );
     };
 
     const handleAddChat = (newChatName) => {
@@ -50,21 +57,21 @@ export const Router = () => {
 
       dispatch(addChat(newId, newChatName));
       // setChatList((prevChatList) => [...prevChatList, newChat]);
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [newId]: [],
-      }));
+      // setMessages((prevMessages) => ({
+      //   ...prevMessages,
+      //   [newId]: [],
+      // }));
     };
 
   const handleDeleteChat = (idToDelete) => {
     dispatch(deleteChat(idToDelete));
     // setChatList((prevChatList) => prevChatList.filter(chat => chat.id !== idToDelete)
     // );
-    setMessages((prevMessages) => { 
-      const newMsgs = { ...prevMessages };
-    delete newMsgs[idToDelete];
-    return newMsgs;
-    });
+    // setMessages((prevMessages) => { 
+    //   const newMsgs = { ...prevMessages };
+    // delete newMsgs[idToDelete];
+    // return newMsgs;
+    // });
   }
 
     return (
