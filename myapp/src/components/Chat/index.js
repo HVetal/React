@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
 import { FormMui } from '../FormMui';
@@ -6,7 +6,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { Navigate, useParams } from 'react-router-dom';
 import './styles.css'
-import { ChatList } from '../ChatList';
 
 const theme = createTheme({
   palette: {
@@ -18,8 +17,6 @@ const theme = createTheme({
 
 export function Chat({ messages, addMessage }) {
   const { chatId } = useParams();
-
-  const [stateMessageList, setMessageList] = useState(messages);
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);

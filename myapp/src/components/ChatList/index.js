@@ -1,9 +1,7 @@
 import React from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import './styles.css'
-import { Button } from '@mui/material';
 import { FormMui } from '../FormMui';
 import { ChatItem } from './ChatItem';
 

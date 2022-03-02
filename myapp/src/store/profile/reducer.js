@@ -1,4 +1,4 @@
-import { CHANGE_NAME, CHANGE_SHOW_NAME, TOGGLE_SHOW_NAME } from "./actions";
+import { CHANGE_NAME, CHANGE_SHOW_NAME } from "./actions";
 
 const initialState = {
     name: 'Default',
