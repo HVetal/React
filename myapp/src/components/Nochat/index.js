@@ -1,8 +1,8 @@
 import { ChatList } from "../ChatList";
 
-export const NoChat = ({ chatState }) => (
+export const NoChat = ({ chatList }) => (
     <>
-      <ChatList chatState={chatState} />
+      <ChatList chats={chatList} />
       <span>Please select a chat</span>
     </>
    );

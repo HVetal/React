@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changeShowName, CHANGE_NAME, TOGGLE_SHOW_NAME } from "../../store/profile/actions";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { changeName, changeShowName, CHANGE_SHOW_NAME } from "../../store/profile/actions";
+import { selectName, selectShowName } from "../../store/profile/selectors";
 import { Form } from "../Form";
 import { ThemeContext } from "../utils/ThemeContext";
 
@@ -8,8 +9,10 @@ export const Profile = () => {
     const { setMessageColor } = useContext(ThemeContext);
     
     const dispatch = useDispatch();
-    const { showName, name } = useSelector((state) => state);
-    // console.log(data);
+
+    const showName = useSelector(selectShowName, shallowEqual);
+    // const showName = useSelector(selectShowName, (prev, current) => prev === current);
+    const name = useSelector(selectName);
 
     const handleChangeShowName = () => {
         dispatch(changeShowName);
@@ -20,15 +23,12 @@ export const Profile = () => {
     }
 
     const handleChangeName = (text) => {
-        dispatch({
-            type: CHANGE_NAME,
-            payload: text
-        });
+        dispatch(changeName(text));
     };
 
     const setShowName = (name) => {
         dispatch({
-            type: TOGGLE_SHOW_NAME,
+            type: CHANGE_SHOW_NAME,
         });
       };
 
