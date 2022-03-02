@@ -5,5 +5,5 @@ export const addMessage = (chatId, newMsg) => ({
     payload: {
         chatId,
         newMsg,
-    }
+    },
 });

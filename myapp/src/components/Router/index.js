@@ -9,51 +9,54 @@ import './styles.css'
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, deleteChat } from "../../store/chats/actions";
 import { addMessage } from "../../store/messages/actions";
+import { selectChats } from "../../store/chats/selectors";
+import { selectMessages } from "../../store/messages/selectors";
 
 const Home = () => <h2>Home page</h2>;
 
-const initialChats = [
-    { name: 'Chat 1', id: "chat1"}, 
-    { name: 'Chat 2', id: "chat2"}, 
-    { name: 'Chat 3', id: "chat3" }
-];
+// const initialChats = [
+//     { name: 'Chat 1', id: "chat1"}, 
+//     { name: 'Chat 2', id: "chat2"}, 
+//     { name: 'Chat 3', id: "chat3" }
+// ];
 
-const initialMessages = initialChats.reduce((acc,el) => {
-  acc[el.id] = [];
-  return acc;
-}, {});
+// const initialMessages = initialChats.reduce((acc,el) => {
+//   acc[el.id] = [];
+//   return acc;
+// }, {});
 
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
 
-    //const [messages, setMessages] = useState(initialMessages);
+    // const [messages, setMessages] = useState(initialMessages);
     // const [chatList, setChatList] = useState(initialChats);
 
-     const messages = useSelector(state => state.messages.messageList);
-     console.log(initialMessages);
+    //  const messages = useSelector(state => state.messages.messageList);
+    //  console.log(initialMessages);
 
-
-    const chatList = useSelector(state => state.chats);
+    const messages = useSelector(selectMessages);
+    const chatList = useSelector(selectChats);
     const dispatch = useDispatch();
 
-    const handleAddMessage = (chatId, message) => {
+    const handleAddMessage = (chatId, newMsg) => {
       // const onAddMessage = (message) => {
-        dispatch(addMessage(chatId, message));
+        // dispatch(addMessage(chatId, message));
       // }
     
     //   setMessages((prevMessageList) => ({ 
     //     ...prevMessageList,
     //     [chatId]: [...prevMessageList[chatId], newMsg],
     // })    );
+    dispatch(addMessage(chatId,newMsg));
     };
 
     const handleAddChat = (newChatName) => {
       const newId = `chat-${Date.now()}`;
 
-      const newChat = {
-        id: newId,
-        name: newChatName,
-      };
+      // const newChat = {
+      //   id: newId,
+      //   name: newChatName,
+      // };
 
       dispatch(addChat(newId, newChatName));
       // setChatList((prevChatList) => [...prevChatList, newChat]);
@@ -61,6 +64,7 @@ export const Router = () => {
       //   ...prevMessages,
       //   [newId]: [],
       // }));
+
     };
 
   const handleDeleteChat = (idToDelete) => {

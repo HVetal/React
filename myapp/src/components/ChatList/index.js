@@ -11,7 +11,7 @@ export const ChatList = ({ chats, onAddChat, onDeleteChat }) =>
 <>
 <List>
 {chats.map((chat) => 
-<ChatItem chat={chat} onDeleteChat={onDeleteChat} /> 
+<ChatItem key={chat.id} chat={chat} onDeleteChat={onDeleteChat} /> 
 )}
 </List>
 <FormMui onSubmit={onAddChat} />
