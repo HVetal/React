@@ -5,7 +5,10 @@ import { FormMui } from '../FormMui';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { Navigate, useParams } from 'react-router-dom';
-import './styles.css'
+import './styles.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMessages } from '../../store/messages/selectors';
+import { addMessage } from '../../store/messages/actions';
 
 const theme = createTheme({
   palette: {
@@ -15,8 +18,12 @@ const theme = createTheme({
   },
 });
 
-export function Chat({ messages, addMessage }) {
-  const { chatId } = useParams();
+export function Chat() {
+  const params = useParams();
+  const { chatId } = params;
+
+  const messages = useSelector(selectMessages);
+  const dispatch = useDispatch();
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
@@ -28,7 +35,7 @@ export function Chat({ messages, addMessage }) {
       author,
       id: `msg-${Date.now()}`,
     };
-    addMessage(chatId, newMsg);
+    dispatch(addMessage(chatId, newMsg));
   };
 
   useEffect(() => {
