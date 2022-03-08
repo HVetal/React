@@ -19,28 +19,28 @@ export const Router = () => {
 
     return (
       <ThemeContext.Provider value={{messageColor, setMessageColor}}>
-    <BrowserRouter>
-      <div>
-        <NavLink to="/" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>home</NavLink>
-      </div>
-      <div>
-        <NavLink to="/profile" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>profile</NavLink>
-      </div> 
-      <div>
-        <NavLink to="/chats" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>chats</NavLink>
-      </div>    
-      <div className="router_chatlist">
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="chats" element={<ChatList />}>
-            <Route path=":chatId" element={<Chat />} />
-        </Route>
-        {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
-        <Route path="/nochat" element={<NoChat />} />
-      </Routes>  
-      </div>
-    </BrowserRouter>
+        <BrowserRouter>
+          <div>
+            <NavLink to="/" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>home</NavLink>
+          </div>
+          <div>
+            <NavLink to="/profile" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>profile</NavLink>
+          </div> 
+          <div>
+            <NavLink to="/chats" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>chats</NavLink>
+          </div>    
+          <div className="router_chatlist">
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="chats" element={<ChatList />}>
+                  <Route path=":chatId" element={<Chat />} />
+              </Route>
+              {/* <Route path="*" element={<h2>Page not found</h2>} /> */}
+              <Route path="/nochat" element={<NoChat />} />
+            </Routes>  
+          </div>
+        </BrowserRouter>
     </ThemeContext.Provider>
     );
 };

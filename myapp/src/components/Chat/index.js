@@ -8,7 +8,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMessages } from '../../store/messages/selectors';
-import { addMessage } from '../../store/messages/actions';
+import { addMessage, addMessageWithThunk } from '../../store/messages/actions';
 
 const theme = createTheme({
   palette: {
@@ -35,19 +35,19 @@ export function Chat() {
       author,
       id: `msg-${Date.now()}`,
     };
-    dispatch(addMessage(chatId, newMsg));
+    dispatch(addMessageWithThunk(chatId, newMsg));
   };
 
   useEffect(() => {
-    let timeout;
-    if (messages[chatId]?.[messages[chatId]?.length - 1]?.author === AUTHORS.ME) {
-        timeout = setTimeout(() => {
-          sendMessage('i am bot', AUTHORS.BOT);
-        }, 1000);
-    }
-    return () => {
-      clearTimeout(timeout);
-    }
+    // let timeout;
+    // if (messages[chatId]?.[messages[chatId]?.length - 1]?.author === AUTHORS.ME) {
+    //     timeout = setTimeout(() => {
+    //       sendMessage('i am bot', AUTHORS.BOT);
+    //     }, 1000);
+    // }
+    // return () => {
+    //   clearTimeout(timeout);
+    // }
   }, [messages]);
 
   if (!chatId || !messages[chatId]) {
