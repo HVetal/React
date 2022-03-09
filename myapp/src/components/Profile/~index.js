@@ -4,7 +4,6 @@ import { changeName, changeShowName, CHANGE_SHOW_NAME } from "../../store/profil
 import { selectName, selectShowName } from "../../store/profile/selectors";
 import { Form } from "../Form";
 import { ThemeContext } from "../utils/ThemeContext";
-import { ProfilePresent } from "./profilePres"
 
 export const Profile = () => {
     const { setMessageColor } = useContext(ThemeContext);
@@ -34,7 +33,26 @@ export const Profile = () => {
       };
 
     return (
-      <ProfilePresent handleClick={handleClick} showName={showName} name={name} setShowName={setShowName} handleChangeShowName={handleChangeShowName} handleChangeName={handleChangeName} />
+        <>
+        <div>
+            <h2>Profile page body</h2>
+            <div>
+                <button onClick={handleClick}>Change theme</button>
+            </div>
+            <div>
+                {showName && <span>{name}</span>}
+                <input
+                    type="checkbox"
+                    checked={showName}
+                    value={showName}
+                    onChange={setShowName}
+                    />
+                    <span>Show Name</span>
+                <button onClick={handleChangeShowName}>Change show name</button>
+            </div>
+            <Form onSubmit={handleChangeName} />
+        </div>
+        </>
     );
 };
 
