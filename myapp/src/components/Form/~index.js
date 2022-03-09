@@ -1,5 +1,4 @@
-import {useEffect, useRef, useState } from "react";
-import { FormPresent } from "./formPresent";
+import {useEffect, useRef, useState } from "react"
 
 export const Form = ({ onSubmit }) => {
     const [value, setValue] = useState('');
@@ -20,6 +19,9 @@ export const Form = ({ onSubmit }) => {
     }, [onSubmit]);
 
     return (
-        <FormPresent handleSubmit={handleSubmit} ref={textField} value={value} handleChange={handleChange} />
+        <form onSubmit={handleSubmit}>
+            <input value={value} ref={textField} onChange={handleChange} type="text" />
+            <input type="submit" />
+        </form>
     )
 }

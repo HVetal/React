@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
 import { FormMui } from '../FormMui';
@@ -25,6 +25,8 @@ export function Chat() {
   const messages = useSelector(selectMessages);
   const dispatch = useDispatch();
 
+  const messageEnd = useRef();
+
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
     }
@@ -39,6 +41,7 @@ export function Chat() {
   };
 
   useEffect(() => {
+    messageEnd.current?.scrollIntoView();
     // let timeout;
     // if (messages[chatId]?.[messages[chatId]?.length - 1]?.author === AUTHORS.ME) {
     //     timeout = setTimeout(() => {
@@ -57,8 +60,6 @@ export function Chat() {
   return ( 
     <ThemeProvider theme={theme}>
       <div className = "app" >
-        {/* <ChatList /> */}
-
         <div className = "content" >
             <MessageList messages={messages[chatId]} />
         </div> 
