@@ -6,6 +6,8 @@ import { ChatList } from "../ChatList";
 import { NoChat } from "../Nochat";
 import { Profile } from "../Profile";
 import './styles.css'
+import { Articles } from "../Articles/Articles";
+import { Emojis } from "../Emojis/Emojis";
 
 const Home = () => <h2>Home page</h2>;
 
@@ -24,6 +26,12 @@ export const Router = () => {
             <NavLink to="/" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>home</NavLink>
           </div>
           <div>
+            <NavLink to="/emojis" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>emojis</NavLink>
+          </div>  
+          <div>
+            <NavLink to="/articles" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>articles</NavLink>
+          </div>  
+          <div>
             <NavLink to="/profile" style={({ isActive }) => ({ color: isActive ? "green" : "grey" })}>profile</NavLink>
           </div> 
           <div>
@@ -32,6 +40,8 @@ export const Router = () => {
           <div className="router_chatlist">
             <Routes>
               <Route path="/" exact element={<Home />} />
+              <Route path="/emojis" element={<Emojis />} />
+              <Route path="/articles" element={<Articles />} />
               <Route path="profile" element={<Profile />} />
               <Route path="chats" element={<ChatList />}>
                   <Route path=":chatId" element={<Chat />} />
