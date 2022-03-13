@@ -21,14 +21,15 @@ const getData = async () => {
     return (
         <>
           <h3>Articles</h3>
-          <button onClick={getData}>Refresh</button>
+          <div><button onClick={getData}>Refresh</button></div>
             {error && <h5>Error: {error.message}</h5>}
             {isLoading ? (
             <CircularProgress />
             ) :  (
             <ul>
               {articles.map((art) =>(
-                  <li key={art.id}>{art.title}</li>
+                  <li key={art.id}>{art.title}
+                  </li>
               ))}
           </ul>
           )}

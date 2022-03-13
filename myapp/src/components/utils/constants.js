@@ -4,6 +4,7 @@ export const AUTHORS = {
 };
 
 export const apiUrl = "https://api.spaceflightnewsapi.net/v3/articles";
+export const apiUrlEmojis = "https://emojihub.herokuapp.com/api/all";
 
 export const FETCH_STATUSES = {
     IDLE: 0,

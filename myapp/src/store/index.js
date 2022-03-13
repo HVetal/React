@@ -7,12 +7,14 @@ import { profileReducer } from "./profile/reducer";
 import { chatsReducer } from "./chats/reducer";
 import { messagesReducer } from "./messages/reducer";
 import { articlesReducer } from "./articles/reducer";
+import { emojisReducer } from "./emojis/reducer";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     chats: chatsReducer,
     messages: messagesReducer,
     articles: articlesReducer,
+    emojis: emojisReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__COMPOSE__ || compose;
