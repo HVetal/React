@@ -8,11 +8,17 @@ import { Profile } from "../Profile";
 import './styles.css'
 import { Articles } from "../Articles/Articles";
 import { Emojis } from "../Emojis/Emojis";
+import { PublicRoute } from "../PublicRoute/PublicRoute";
+import { PrivateRoute } from "../PrivateRoute/PrivateRoute";
 
 const Home = () => <h2>Home page</h2>;
 
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
+  const [authed, setAuthed] = useState(false);
+  const authorize = () => {
+    setAuthed(true);
+  }
 
     const contextValue = {
       messageColor,
@@ -39,10 +45,14 @@ export const Router = () => {
           </div>    
           <div className="router_chatlist">
             <Routes>
-              <Route path="/" exact element={<Home />} />
+              <Route path="/" element={<PublicRoute authed={authed} />}>
+                <Route path="" element={<Home />} />
+              </Route>
+              <Route path="profile" element={<PrivateRoute authed={authed} />}>
+                <Route element={<Profile />} />
+              </Route>
               <Route path="/emojis" element={<Emojis />} />
               <Route path="/articles" element={<Articles />} />
-              <Route path="profile" element={<Profile />} />
               <Route path="chats" element={<ChatList />}>
                   <Route path=":chatId" element={<Chat />} />
               </Route>
