@@ -1,10 +1,13 @@
 import { Form } from "../Form"
 
-export const ProfilePresent = ({ handleClick, showName, name, setShowName, handleChangeShowName, handleChangeName }) => {
+export const ProfilePresent = ({ handleClick, showName, name, setShowName, handleChangeShowName, handleChangeName, handleLogout }) => {
     return (
     <>
     <div>
         <h2>Profile page body</h2>
+        <div>
+            <button onClick={handleLogout}>LOGOUT</button>
+        </div>
         <div>
             <button onClick={handleClick}>Change theme</button>
         </div>
