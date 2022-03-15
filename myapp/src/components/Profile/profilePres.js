@@ -12,7 +12,7 @@ export const ProfilePresent = ({ handleClick, showName, name, setShowName, handl
             <button onClick={handleClick}>Change theme</button>
         </div>
         <div>
-            {showName && <span>{name}</span>}
+            {showName && <h4>{name}</h4>}
             <input
                 type="checkbox"
                 checked={showName}
