@@ -1,4 +1,4 @@
-import { onValue, set } from "@firebase/database"
+import { onValue, set, onChildAdded, onChildRemoved } from "@firebase/database"
 import React, { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import { Outlet } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { chatsRef, getChatsRefById } from '../../services/firebase';
 export const ChatList = () => {
     // const chats = useSelector(selectChats);
     const [chats, setChats] = useState([]);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleAddChat = (newChatName) => {
         const newId = `chat-${Date.now()}`;
@@ -21,18 +21,39 @@ export const ChatList = () => {
         set(getChatsRefById(newId), { id: newId, name: newChatName });
       };
 
-      useEffect(() => {
-          const unsubscribe = onValue(chatsRef, (snapshot) => {
-              const newChats = [];
-              snapshot.forEach((child) => {
-                  newChats.push(child.val());
-              });
+    //   useEffect(() => {
+    //       const unsubscribe = onValue(chatsRef, (snapshot) => {
+    //           const newChats = [];
+    //           snapshot.forEach((child) => {
+    //               newChats.push(child.val());
+    //           });
 
-              setChats(newChats);
+    //           setChats(newChats);
+    //       });
+
+    //       return unsubscribe;
+    //   }, []);
+
+          useEffect(() => {
+          const unsubscribe = onChildAdded(chatsRef, (snapshot) => {
+              setChats((prevChats) => [...prevChats, snapshot.val()]);
+            // console.log(snapshot.val());
           });
 
           return unsubscribe;
       }, []);
+
+      useEffect(() => {
+        const unsubscribe = onChildRemoved(chatsRef, (snapshot) => {
+            // setChats((prevChats) => [...prevChats, snapshot.val()]);
+          console.log(snapshot.val());
+          setChats((prevChats) => prevChats.filter(({ id }) => id !== snapshot.val()?.id)
+          );
+        });
+
+        return unsubscribe;
+    }, []);
+
 
    return (
         <>

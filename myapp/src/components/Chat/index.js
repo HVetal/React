@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
 import { FormMui } from '../FormMui';
@@ -9,6 +9,8 @@ import './styles.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMessages } from '../../store/messages/selectors';
 import { addMessage, addMessageWithThunk } from '../../store/messages/actions';
+import { onChildAdded, onChildRemoved, push, set } from 'firebase/database';
+import { getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
 
 const theme = createTheme({
   palette: {
@@ -22,7 +24,8 @@ export function Chat() {
   const params = useParams();
   const { chatId } = params;
 
-  const messages = useSelector(selectMessages);
+  // const messages = useSelector(selectMessages);
+  const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
 
   const messageEnd = useRef();
@@ -37,23 +40,34 @@ export function Chat() {
       author,
       id: `msg-${Date.now()}`,
     };
-    dispatch(addMessageWithThunk(chatId, newMsg));
+    // dispatch(addMessageWithThunk(chatId, newMsg));
+    set(getMessagesRefById(chatId, newMsg.id), newMsg);
   };
 
   useEffect(() => {
+    const unsubscribe = onChildAdded(getMessagesRefByChatId(chatId), (snapshot) => {
+      console.log(snapshot.val());
+      setMessages((prevMessages) => [...prevMessages, snapshot.val()]);
+    });
+
+    return unsubscribe;
+  }, [chatId]);
+
+  useEffect(() => {
+    const unsubscribe = onChildRemoved(getMessagesRefByChatId(chatId), (snapshot) => {
+      console.log(snapshot.val());
+      setMessages((prevMessages) => prevMessages.filter(({ id }) => id !== snapshot.val()?.id));
+    });
+
+    return unsubscribe;
+  }, [chatId]);
+
+  useEffect(() => {
     messageEnd.current?.scrollIntoView();
-    // let timeout;
-    // if (messages[chatId]?.[messages[chatId]?.length - 1]?.author === AUTHORS.ME) {
-    //     timeout = setTimeout(() => {
-    //       sendMessage('i am bot', AUTHORS.BOT);
-    //     }, 1000);
-    // }
-    // return () => {
-    //   clearTimeout(timeout);
-    // }
   }, [messages]);
 
-  if (!chatId || !messages[chatId]) {
+  // if (!chatId || !messages[chatId]) {
+    if (!messages) {
     return <Navigate to="/nochat" replace />
   }
 
@@ -61,7 +75,7 @@ export function Chat() {
     <ThemeProvider theme={theme}>
       <div className = "app" >
         <div className = "content" >
-            <MessageList messages={messages[chatId]} />
+            <MessageList messages={messages} />
         </div> 
         <div className = "content" >
             <FormMui onSubmit={handleAddMessage} />
