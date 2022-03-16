@@ -1,3 +1,4 @@
+import { onValue } from "@firebase/database";
 import { useEffect, useRef, useState } from 'react';
 import { AUTHORS } from '../utils/constants';
 import { MessageList } from '../MessageList';
@@ -10,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMessages } from '../../store/messages/selectors';
 import { addMessage, addMessageWithThunk } from '../../store/messages/actions';
 import { onChildAdded, onChildRemoved, push, set } from 'firebase/database';
-import { getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
+import { getMessageListRefByChatId, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
 
 const theme = createTheme({
   palette: {
@@ -28,7 +29,7 @@ export function Chat() {
   const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
 
-  const messageEnd = useRef();
+  const messagesEnd = useRef();
 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
@@ -45,7 +46,17 @@ export function Chat() {
   };
 
   useEffect(() => {
-    const unsubscribe = onChildAdded(getMessagesRefByChatId(chatId), (snapshot) => {
+    const unsubscribe = onValue(getMessagesRefByChatId(chatId), (snapshot) => {
+      if (!snapshot.val()?.empty) {
+        setMessages(null);
+      }
+    });
+
+    return unsubscribe;
+  }, [chatId]);
+
+  useEffect(() => {
+    const unsubscribe = onChildAdded(getMessageListRefByChatId(chatId), (snapshot) => {
       console.log(snapshot.val());
       setMessages((prevMessages) => [...prevMessages, snapshot.val()]);
     });
@@ -54,7 +65,7 @@ export function Chat() {
   }, [chatId]);
 
   useEffect(() => {
-    const unsubscribe = onChildRemoved(getMessagesRefByChatId(chatId), (snapshot) => {
+    const unsubscribe = onChildRemoved(getMessageListRefByChatId(chatId), (snapshot) => {
       console.log(snapshot.val());
       setMessages((prevMessages) => prevMessages.filter(({ id }) => id !== snapshot.val()?.id));
     });
@@ -63,7 +74,7 @@ export function Chat() {
   }, [chatId]);
 
   useEffect(() => {
-    messageEnd.current?.scrollIntoView();
+    messagesEnd.current?.scrollIntoView();
   }, [messages]);
 
   // if (!chatId || !messages[chatId]) {

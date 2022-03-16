@@ -8,7 +8,7 @@ import { ChatItem } from './ChatItem';
 import { selectChats } from '../../store/chats/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { addChat } from '../../store/chats/actions';
-import { chatsRef, getChatsRefById } from '../../services/firebase';
+import { chatsRef, getChatsRefById, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
 
 export const ChatList = () => {
     // const chats = useSelector(selectChats);
@@ -19,6 +19,7 @@ export const ChatList = () => {
         const newId = `chat-${Date.now()}`;
         // dispatch(addChat(newId, newChatName));
         set(getChatsRefById(newId), { id: newId, name: newChatName });
+        set(getMessagesRefByChatId(newId), { empty: true });
       };
 
     //   useEffect(() => {

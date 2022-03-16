@@ -18,7 +18,7 @@ export const messagesReducer = (state = initialState, action) => {
             };
           }
           case EDIT_MESSAGE: {
-              const {chatId, idToEdit, newText} = action.payload;
+              const { chatId, idToEdit, newText } = action.payload;
               const editIndex = state[chatId].findIndex(message => message.id === idToEdit);
 
               const newState = { ...state };
