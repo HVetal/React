@@ -1,7 +1,10 @@
 import { onValue, set } from "@firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { logout, profileNameRef, profileRef, profileShowNameRef } from "../../services/firebase";
+import { auth, getProfileNameRef, logout, 
+    // profileNameRef,
+     profileRef, 
+     profileShowNameRef } from "../../services/firebase";
 import { changeName, changeShowName, CHANGE_SHOW_NAME } from "../../store/profile/actions";
 import { selectName, selectShowName } from "../../store/profile/selectors";
 import { Form } from "../Form";
@@ -21,6 +24,7 @@ export const Profile = ({ onLogout }) => {
 
     const handleChangeShowName = () => {
         // dispatch(changeShowName);
+        
         set(profileShowNameRef, !showName);
     }
 
@@ -31,29 +35,30 @@ export const Profile = ({ onLogout }) => {
     const handleChangeName = (text) => {
         // dispatch(changeName(text));
         // setShowName(text);
-        set(profileNameRef, text);
+        // console.log("auth.currentUser", auth.currentUser);
+        set(getProfileNameRef(auth.currentUser.uid), text);
     };
 
-    useEffect(() => {
-        const unsubscribeName = onValue(profileNameRef, (snapshot) => {
-            console.log(snapshot.val());
-            setName(snapshot.val());
-        });
-        const unsubscribeShowName = onValue(profileShowNameRef, (snapshot) => {
-            console.log(snapshot.val());
-            setShowName(snapshot.val());
-        });
+    // useEffect(() => {
+    //     const unsubscribeName = onValue(profileNameRef, (snapshot) => {
+    //         console.log(snapshot.val());
+    //         setName(snapshot.val());
+    //     });
+    //     const unsubscribeShowName = onValue(profileShowNameRef, (snapshot) => {
+    //         console.log(snapshot.val());
+    //         setShowName(snapshot.val());
+    //     });
 
-        // const unsubscribeProfile = onValue(profileRef, (snapshot) => {
-        //     console.log(snapshot.val());
-        // })
+    //     // const unsubscribeProfile = onValue(profileRef, (snapshot) => {
+    //     //     console.log(snapshot.val());
+    //     // })
 
-        return () => {
-            unsubscribeName();
-            unsubscribeShowName();
-            // unsubscribeProfile();
-        }
-    }, []);
+    //     return () => {
+    //         unsubscribeName();
+    //         unsubscribeShowName();
+    //         // unsubscribeProfile();
+    //     }
+    // }, []);
 
     const handleLogout = async () => {
         try {
