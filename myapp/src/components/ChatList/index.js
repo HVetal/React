@@ -7,13 +7,13 @@ import { FormMui } from '../FormMui';
 import { ChatItem } from './ChatItem';
 import { selectChats } from '../../store/chats/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addChat } from '../../store/chats/actions';
-import { chatsRef, getChatsRefById, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
+import { addChat, initChatsTracking } from '../../store/chats/actions';
+import { chatsRef, getChatsRefById, getMessageRefById, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
 
 export const ChatList = () => {
-    // const chats = useSelector(selectChats);
-    const [chats, setChats] = useState([]);
-    // const dispatch = useDispatch();
+    const chats = useSelector(selectChats);
+    // const [chats, setChats] = useState([]);
+    const dispatch = useDispatch();
 
     const handleAddChat = (newChatName) => {
         const newId = `chat-${Date.now()}`;
@@ -35,24 +35,28 @@ export const ChatList = () => {
     //       return unsubscribe;
     //   }, []);
 
-          useEffect(() => {
-          const unsubscribe = onChildAdded(chatsRef, (snapshot) => {
-              setChats((prevChats) => [...prevChats, snapshot.val()]);
-            // console.log(snapshot.val());
-          });
+    //       useEffect(() => {
+    //       const unsubscribe = onChildAdded(chatsRef, (snapshot) => {
+    //           setChats((prevChats) => [...prevChats, snapshot.val()]);
+    //         // console.log(snapshot.val());
+    //       });
 
-          return unsubscribe;
-      }, []);
+    //       return unsubscribe;
+    //   }, []);
 
-      useEffect(() => {
-        const unsubscribe = onChildRemoved(chatsRef, (snapshot) => {
-            // setChats((prevChats) => [...prevChats, snapshot.val()]);
-          console.log(snapshot.val());
-          setChats((prevChats) => prevChats.filter(({ id }) => id !== snapshot.val()?.id)
-          );
-        });
+    //   useEffect(() => {
+    //     const unsubscribe = onChildRemoved(chatsRef, (snapshot) => {
+    //         // setChats((prevChats) => [...prevChats, snapshot.val()]);
+    //       console.log(snapshot.val());
+    //       setChats((prevChats) => prevChats.filter(({ id }) => id !== snapshot.val()?.id)
+    //       );
+    //     });
 
-        return unsubscribe;
+    //     return unsubscribe;
+    // }, []);
+
+    useEffect(() => {
+      dispatch(initChatsTracking());
     }, []);
 
 

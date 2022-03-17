@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMessages } from '../../store/messages/selectors';
 import { addMessage, addMessageWithThunk } from '../../store/messages/actions';
 import { onChildAdded, onChildRemoved, push, set } from 'firebase/database';
-import { getMessageListRefByChatId, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
+import { getMessageListRefByChatId, getMessageRefById, getMessagesRefByChatId } from '../../services/firebase';
 
 const theme = createTheme({
   palette: {
@@ -42,7 +42,7 @@ export function Chat() {
       id: `msg-${Date.now()}`,
     };
     // dispatch(addMessageWithThunk(chatId, newMsg));
-    set(getMessagesRefById(chatId, newMsg.id), newMsg);
+    set(getMessageRefById(chatId, newMsg.id), newMsg);
   };
 
   useEffect(() => {
