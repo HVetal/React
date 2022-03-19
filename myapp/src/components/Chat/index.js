@@ -57,8 +57,9 @@ export function Chat() {
 
   useEffect(() => {
     const unsubscribe = onChildAdded(getMessageListRefByChatId(chatId), (snapshot) => {
-      console.log(snapshot.val());
+      console.log("add", snapshot.val());
       setMessages((prevMessages) => [...prevMessages, snapshot.val()]);
+      // console.log("messages", messages);
     });
 
     return unsubscribe;
@@ -66,7 +67,7 @@ export function Chat() {
 
   useEffect(() => {
     const unsubscribe = onChildRemoved(getMessageListRefByChatId(chatId), (snapshot) => {
-      console.log(snapshot.val());
+      console.log("remove",snapshot.val());
       setMessages((prevMessages) => prevMessages.filter(({ id }) => id !== snapshot.val()?.id));
     });
 
