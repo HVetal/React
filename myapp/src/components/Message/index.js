@@ -3,11 +3,12 @@ import { ThemeContext } from '../utils/ThemeContext';
 import './style.css';
 
 export const Message = ({ text, author }) => {
-    const { messageColor } = useContext(ThemeContext);
+    // const { messageColor } = useContext(ThemeContext);
 
     return (
         <div>
-            <span style={{ color: messageColor }}>
+            {/* <span style={{ color: messageColor }}> */}
+            <span>
                 {author}: {text}
             </span>
         </div>
