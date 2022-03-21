@@ -28,6 +28,7 @@ export const db = getDatabase(app);
 export const profileRef = ref(db, 'profile');
 export const getProfileNameRef = (userId) => ref(db, `profile/${userId}/name`);
 export const profileShowNameRef = ref(db, 'profile/showName');
+
 export const chatsRef = ref(db, "chats");
 export const getChatsRefById = (chatId) => ref(db, `chats/${chatId}`);
 
