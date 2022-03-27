@@ -7,7 +7,7 @@ import { FormMui } from '../FormMui';
 import { ChatItem } from './ChatItem';
 import { selectChats } from '../../store/chats/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addChat, initChatsTracking } from '../../store/chats/actions';
+import { addChat, addChatWithFirebase, initChatsTracking } from '../../store/chats/actions';
 import { chatsRef, getChatsRefById, getMessageRefById, getMessagesRefByChatId, getMessagesRefById } from '../../services/firebase';
 
 export const ChatList = () => {
@@ -18,8 +18,7 @@ export const ChatList = () => {
     const handleAddChat = (newChatName) => {
         const newId = `chat-${Date.now()}`;
         // dispatch(addChat(newId, newChatName));
-        set(getChatsRefById(newId), { id: newId, name: newChatName });
-        set(getMessagesRefByChatId(newId), { empty: true });
+        dispatch(addChatWithFirebase(newId, newChatName));
       };
 
     //   useEffect(() => {
@@ -56,7 +55,7 @@ export const ChatList = () => {
     // }, []);
 
     useEffect(() => {
-      dispatch(initChatsTracking());
+       dispatch(initChatsTracking());
     }, []);
 
 

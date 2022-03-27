@@ -19,20 +19,15 @@ export const messagesReducer = (state = initialState, action) => {
           }
           case EDIT_MESSAGE: {
               const { chatId, idToEdit, newText } = action.payload;
-              // console.log('chatId', chatId);
-              // console.log('idToEdit', idToEdit);
-              // console.log('newText', newText);
-              // console.log('state', state);
-              // console.log('state[chatId]', state[chatId]);
               const editIndex = state[chatId].findIndex(message => message.id === idToEdit);
-              // console.log('editIndex', editIndex);
-              // console.log('state[chatId]', state[chatId]);
               const newState = { ...state };
               newState[chatId][editIndex] = {
                 ...newState[chatId][editIndex],
                 text: newText,
               }
+
             return newState;
+
           }
         case ADD_CHAT: {
             return {

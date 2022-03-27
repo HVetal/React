@@ -59,7 +59,6 @@ export function Chat() {
     const unsubscribe = onChildAdded(getMessageListRefByChatId(chatId), (snapshot) => {
       console.log("add", snapshot.val());
       setMessages((prevMessages) => [...prevMessages, snapshot.val()]);
-      // console.log("messages", messages);
     });
 
     return unsubscribe;
@@ -78,7 +77,6 @@ export function Chat() {
     messagesEnd.current?.scrollIntoView();
   }, [messages]);
 
-  // if (!chatId || !messages[chatId]) {
     if (!messages) {
     return <Navigate to="/nochat" replace />
   }
