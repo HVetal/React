@@ -1,12 +1,33 @@
+import { onChildChanged, onValue, set, onChildAdded } from "firebase/database";
 import { AUTHORS } from "../../components/utils/constants";
+import { getMessageEditRefById, getMessagesRefByChatId } from "../../services/firebase";
 
 export const ADD_MESSAGE = 'MESSAGES::ADD_MESSAGE';
+export const DELETE_MESSAGE = 'MESSAGES::DELETE_MESSAGE';
+export const EDIT_MESSAGE = 'MESSAGES::EDIT_MESSAGE';
 
 export const addMessage = (chatId, newMsg) => ({
     type: ADD_MESSAGE,
     payload: {
         chatId,
         newMsg,
+    },
+});
+
+export const deleteMessage = (chatId, idToDelete) => ({
+    type: DELETE_MESSAGE,
+    payload: {
+        chatId,
+        idToDelete,
+    },
+});
+
+export const editMessage = (chatId, idToEdit, newText) => ({
+    type: EDIT_MESSAGE,
+    payload: {
+        chatId,
+        idToEdit,
+        newText,
     },
 });
 

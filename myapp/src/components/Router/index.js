@@ -1,6 +1,8 @@
 import { ThemeContext } from "../utils/ThemeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+
 import { Chat } from "../Chat";
 import { ChatList } from "../ChatList";
 import { NoChat } from "../Nochat";
@@ -8,16 +10,37 @@ import { Profile } from "../Profile";
 import './styles.css'
 import { Articles } from "../Articles/Articles";
 import { Emojis } from "../Emojis/Emojis";
-
-const Home = () => <h2>Home page</h2>;
+import { PublicRoute } from "../PublicRoute/PublicRoute";
+import { PrivateRoute } from "../PrivateRoute/PrivateRoute";
+import { Home } from "../Home/Home";
+import { auth } from "../../services/firebase";
 
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
+  const [authed, setAuthed] = useState(false);
+  const authorize = () => {
+    setAuthed(true);
+  }
+  const unauthorize = () => {
+    setAuthed(false);
+  }
 
-    const contextValue = {
-      messageColor,
-      setMessageColor,
-    };
+  const contextValue = {
+    messageColor,
+    setMessageColor,
+  };
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setAuthed(true);
+    } else {
+      setAuthed(false);
+    }
+  }); 
+
+  return unsubscribe;
+}, []);
 
     return (
       <ThemeContext.Provider value={{messageColor, setMessageColor}}>
@@ -39,10 +62,15 @@ export const Router = () => {
           </div>    
           <div className="router_chatlist">
             <Routes>
-              <Route path="/" exact element={<Home />} />
+              <Route path="/" element={<PublicRoute authed={authed} />}>
+                <Route path="" element={<Home />} />
+                <Route path="/signup" element={<Home isSignUp />} />
+              </Route>
+              <Route path="profile" element={<PrivateRoute authed={authed} />}>
+                <Route path="" element={<Profile onLogout={unauthorize} />} />
+              </Route>
               <Route path="/emojis" element={<Emojis />} />
               <Route path="/articles" element={<Articles />} />
-              <Route path="profile" element={<Profile />} />
               <Route path="chats" element={<ChatList />}>
                   <Route path=":chatId" element={<Chat />} />
               </Route>
