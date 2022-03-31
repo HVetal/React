@@ -16,7 +16,7 @@ export const Profile = ({ onLogout }) => {
     const [name, setName] = useState('');
     const [showName, setShowName] = useState(false);
     
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // const showName = useSelector(selectShowName, shallowEqual);
     // const showName = useSelector(selectShowName, (prev, current) => prev === current);

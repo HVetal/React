@@ -1,6 +1,6 @@
 import { getArticles, getArticlesFailure, getArticlesRequest, getArticlesSuccess, GET_ARTICLES_SUCCESS } from "../actions";
 
-describe("getArticlesSuccess tests", () => {
+describe.skip("getArticlesSuccess tests", () => {
     it("returns obj with type and payload", () => {
         const payload = [];
         const expected = {
@@ -13,7 +13,7 @@ describe("getArticlesSuccess tests", () => {
     });
 });
 
-describe("getArticlesTest", () => {
+describe.skip("getArticlesTest", () => {
     it("calls fn passed as an arg with getArticlesReq", () => {
         const mockDispatch = jest.fn();
 

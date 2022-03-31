@@ -8,8 +8,8 @@ export const ProfilePresent = ({ handleClick, showName, name, setShowName, handl
         <div>
             <button onClick={handleLogout}>LOGOUT</button>
         </div>
-        <div>
-            <button onClick={handleClick}>Change theme</button>
+        <div >
+            <button aria-current="Change theme" onClick={handleClick}>Change theme</button>
         </div>
         <div>
             {showName && <h4>{name}</h4>}
