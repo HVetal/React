@@ -54,9 +54,9 @@ export const ChatList = () => {
     //     return unsubscribe;
     // }, []);
 
-    useEffect(() => {
-       dispatch(initChatsTracking());
-    }, []);
+    // useEffect(() => {
+    //    dispatch(initChatsTracking());
+    // }, []);
 
 
    return (
